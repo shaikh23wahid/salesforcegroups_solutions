@@ -1,0 +1,23 @@
+{
+  "name": "salesforcegroup_solution",
+  "version": "1.0.0",
+  "description": "salesforcegroupsolution",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shaikh23wahid/salesforcegroups_solutions.git"
+  },
+  "author": "wahid shaikh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaikh23wahid/salesforcegroups_solutions/issues"
+  },
+  "homepage": "https://github.com/shaikh23wahid/salesforcegroups_solutions",
+  "dependencies": {
+    "ejs": "^2.3.1",
+    "express": "^4.12.4"
+  }
+}
