@@ -18,6 +18,10 @@ app.get('/home', function(req, res) {
     res.render('pages/index');
 });
 
+app.get('/ngfooter', function(req, res) {
+    res.render('partials/footer');
+});
+
 app.listen(8888);
 console.log('You are communicating to port 8888');
 
