@@ -19,5 +19,5 @@ app.get('/home', function(req, res) {
 });
 
 app.listen(8888);
-console.log('You are communicating to port 8080');
+console.log('You are communicating to port 8888');
 
