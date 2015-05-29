@@ -1,78 +1,85 @@
 <!DOCTYPE html>
-<html ng-app="pythonApp">
+<html ng-app="groupApp">
 <head>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"> </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
     <link rel="stylesheet" href="//cloud.pureprofile.com/css/styles/PPbootstrap.css"
-        type="text/css">
+          type="text/css">
     <link rel="stylesheet" href="//cloud.pureprofile.com/css/styles/pp-pages.css" type="text/css">
     <script type="text/javascript">
-        var pythonApp = angular.module("pythonApp", []);
 
-        pythonApp.factory('userRepository', function ($http) {
-            return {
-                getAllUsers: function () {
-                    var url = "https://api.mongolab.com/api/1/databases/angularjs-intro/collections/users?apiKey=terrPcifZzn01_ImGsFOIZ96SwvSXgN9";
-                    return $http.get(url);
-                }
-            }
-        });
+        var groupApp = angular.module("groupApp", []);
 
-        pythonApp.service('userService', function ($http) {
-            this.getAllUsers1 = function () {
-                var url = "https://api.mongolab.com/api/1/databases/angularjs-intro/collections/users?apiKey=terrPcifZzn01_ImGsFOIZ96SwvSXgN9";
+        groupApp.service('groupRepository', function ($http) {
+            this.getAllBrands = function () {
+                var url = "http://52.74.171.222/getbrands";
                 return $http.get(url);
             };
         });
 
-        pythonApp.factory('Exchange', function ($http) {
-            return {
-                getConvertsation: function () {
-                     return $http.get("http://52.74.171.222:1234/getbrands");
-                         }
-            }
+        var groupModel = {
+            "OldBrandID": "3369",
+            "HasretailStores": "0",
+            "BrandName": "JB Hi Fi",
+            "WikipediaURL": "",
+            "OfficialFacebookPage": "",
+            "ParentBrand": "",
+            "CountOfProductCategories": "0",
+            "mainbrandurl": "www.jbhifi.com.au",
+            "Types": "",
+            "Industry": "",
+            "CreatedDate": "19/09/2014",
+            "BrandBriefAndNotes": "http://cloud.pureprofile.com/brand-icons/live/jbhifi.jpeg",
+            "BrandID": "a0M90000009fETS",
+            "BrandImageURL": "http://assets.pureprofile.com/images/brands/jb-hi-fi.jpg",
+            "FacebookLikes": "",
+            "Global": "0",
+            "TwitterHandle": "",
+            "BrandAccount": "",
+            "LinkedinURL": "",
+            "CreatedBy": "Paul Chan",
+            "PureprofileBrandDashboard": "",
+            "BrandTrackingURL": "",
+            "TwitterFollowers": "",
+            "Size": "",
+            "Country": "United States of America",
+            "Description": "Join Pureprofile, Our account holders answer thousands of questions every day in online paid surveys. The answers provided allow us to put people into useful groups, like this one. Groups of people with similar likes, dislikes, opinions and values are then used to target people for future campaigns"
+        };
+
+        groupApp.controller('groupCtrl', function ($scope, groupRepository) {
+            $scope.GID= 0;
+
+            groupRepository.getAllBrands().success(function (groupdata) {
+                $scope.groupData = groupdata.Brands;
+                $scope.GroupData = groupModel;
+                $scope.GID =$scope.groupID;
+            });
         });
 
-        pythonApp.controller('TradeCtrl', function ($scope, Exchange, userService, userRepository) {
-
-            Exchange.getConvertsation().then(function (result) {
-                $scope.conversation = result.convertsation;
-            });
-
-            userRepository.getAllUsers().success(function (data) {
-                $scope.userRepositoryUsers = data;
-            });
-
-            userService.getAllUsers1().success(function (users1) {
-                $scope.users1 = users1;
-            });
-        });
     </script>
 </head>
 <body>
-    <div class="wrapper" ng-controller="TradeCtrl">
+    <div class="wrapper" ng-controller="groupCtrl">
         <header>
             <% include ../partials/header %>
         </header>
-
         <div class="container page-container group-header-section">
             <div class="row">
                 <!-- Group image -->
                 <div class="span3 aside">
                     <div class="col-box">
                         <div class="group-image">
-                            <img src="http://cloud.pureprofile.com/groups/main/live/201307091013349734367_8844354775116211167.jpg"
-                                alt="Male image">
+                            <img src="{{GroupData.BrandImageURL}}"
+                                 alt="{{GroupData.BrandName}}">
+                            Group ID : <%= id %>
+                            Scope GroupID  : {{GID}}
                         </div>
                     </div>
                 </div>
                 <!-- Content -->
-                <div class="span6 middle-content">
+                <div class="span6 middle-content"  ng-init="groupID = '<%= id %>' ">
                     <div class="page-header">
                         <img class="icon" src="//cloud.pureprofile.com/icons/pp-core-icons/groups-56.png"
-                            alt="pureprofile group">
+                             alt="pureprofile group">
                         <h1 class="heading">
                             Male</h1>
                         <p class="sub-heading">
@@ -82,13 +89,9 @@
                     <div class="post-container">
                         <div class="post pg-desc">
                             <p>
-                                <b>Introducing Groups</b></p>
+                                <b>{{GroupData.BrandName}}</b></p>
                             <p>
-                                Join Pureprofile, Our account holders answer thousands of questions every day in
-                                online paid surveys. The answers provided allow us to put people into useful groups,
-                                like this one. Groups of people with similar likes, dislikes, opinions and values
-                                are then used to target people for future campaigns. <a href="/us" style="color: #848484;
-                                    text-decoration: underline;">Find out more</a>
+                                {{GroupData.Description}}
                             </p>
                         </div>
                     </div>
@@ -96,7 +99,7 @@
                         <div class="span4 post-container">
                             <div class="back-link group-page">
                                 <img class="ico" src="//cloud.pureprofile.com/icons/profile-icons/back-arrow-24.png"
-                                    alt="back">
+                                     alt="back">
                                 <h3>
                                     <a href="/us/about_you" onclick="createCookie('GroupUrlReferrer','', -1);">back to profile</a></h3>
                             </div>
@@ -114,16 +117,16 @@
                         </div>
                         <ul class="inline-list no-margin-left" style="display: none;">
                             <li><span class="st_twitter_large" displaytext="Tweet" st_url="http://www3.pureprofile.com/us/group/male"
-                                st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
+                                      st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
                             </span></li>
                             <li><span class="st_facebook_large" displaytext="Facebook" st_url="http://www3.pureprofile.com/us/group/male"
-                                st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
+                                      st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
                             </span></li>
                             <li><span class="st_linkedin_large" displaytext="LinkedIn" st_url="http://www3.pureprofile.com/us/group/male"
-                                st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
+                                      st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
                             </span></li>
                             <li><span class="st_email_large" displaytext="Email" st_url="http://www3.pureprofile.com/us/group/male"
-                                st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
+                                      st_title="Male | pureprofile.com group" st_image="http://cloud.pureprofile.com/groups/live/201307091013020927508_7101781543748350484.jpg">
                             </span></li>
                         </ul>
                     </div>
@@ -440,7 +443,9 @@
             </div>
             <div class="push">
             </div>
-</div>
+        </div>
+    </div>
+
         <footer>
             <% include ../partials/footer %>
         </footer>

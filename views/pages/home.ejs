@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="homeApp">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <link rel="stylesheet" href="//cloud.pureprofile.com/css/styles/PPbootstrap.css"
+          type="text/css">
+    <link rel="stylesheet" href="//cloud.pureprofile.com/css/styles/pp-pages.css" type="text/css">
+    <script type="text/javascript">
+
+        var homeApp = angular.module("homeApp", []);
+
+        homeApp.service('groupRepository', function ($http) {
+            this.getAllBrands = function () {
+                var url = "http://52.74.171.222/getbrands";
+                return $http.get(url);
+            };
+        });
+
+        homeApp.controller('groupCtrl', function ($scope, groupRepository) {
+            $scope.currentPage=1;
+            $scope.pageSize= 3;
+
+            groupRepository.getAllBrands().success(function (groupdata) {
+                $scope.groupData = groupdata.Brands;
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <H1>Group List</H1>
+    <div class="container page-container group-header-section" ng-controller="groupCtrl">
+
+        <table border="1" ng-show="groupData.length>0">
+            <tr>
+                <th>BrandID</th>
+                <th>Brand Name</th>
+                <th>Parent Brand</th>
+                <th>Brand Image URL</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="gd in groupData">
+                <td>{{gd.BrandID}}</td>
+                <td>{{gd.BrandName}}</td>
+                <td>{{gd.ParentBrand}}</td>
+                <td>{{gd.BrandImageURL}}</td>
+                <td><a href="/group/{{gd.BrandID}}">View</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<footer>
+    <% include ../partials/footer %>
+</footer>
+</body>
+</html>
