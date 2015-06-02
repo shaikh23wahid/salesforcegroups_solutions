@@ -1,0 +1,21 @@
+<H1>Group List</H1>
+<div class="container page-container group-header-section">
+
+    <table border="1" ng-show="groupData.length>0">
+        <tr>
+            <th>BrandID</th>
+            <th>Brand Name</th>
+            <th>Parent Brand</th>
+            <th>Brand Image URL</th>
+            <th>Action</th>
+        </tr>
+        <tr ng-repeat="gd in groupData">
+            <td>{{gd.BrandID}}</td>
+            <td>{{gd.BrandName}}</td>
+            <td>{{gd.ParentBrand}}</td>
+            <td>{{gd.BrandImageURL}}</td>
+            <td><a href="/group/{{gd.BrandID}}">View</a></td>
+        </tr>
+    </table>
+
+</div>
